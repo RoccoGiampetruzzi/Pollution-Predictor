@@ -134,10 +134,12 @@ class PM_HIGH_PREDICTOR:
         
         # Counting entries of Confusion Matrix
         for true_label, pred_label in zip(y, y_pred):
-            confusion_matrix[int(true_label), int(pred_label)] += 1
+            confusion_matrix[int(true_label), int(pred_label)] += 1 # Row --> True labels, Columns --> Predicted Labels
             
         # Computing accuracy
         accuracy = np.trace(confusion_matrix) / np.sum(confusion_matrix)
-        
-        return accuracy, confusion_matrix
+        precision = confusion_matrix[1,1]/(confusion_matrix[1,1] + confusion_matrix[0, 1])
+        recall = confusion_matrix[1, 1]/(confusion_matrix[1, 1] + confusion_matrix[1, 0])
+        F1_score = 2*(precision*recall)/(precision + recall)
+        return accuracy, precision, recall, F1_score, confusion_matrix
     
